@@ -4,15 +4,19 @@ import "./index.css";
 import App from "./modules/App/App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Header from "./modules/Header/Header";
-
+import Shop from "./modules/Shop/Shop";
+import { Provider } from "react-redux";
+import store from './redux/store'
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    
     errorElement: <div>ERROR</div>,
-    children: [                       
+    children: [ 
+      {
+        path: '/shop',
+        element: <Shop/>
+      }                      
     ],
   },
 ]);
@@ -22,7 +26,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 
