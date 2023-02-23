@@ -1,8 +1,11 @@
 import { shopTypes } from "./actionTypes";
-import { FetchSoapById } from "./types";
+import { FetchSoapById, FetchSoapList } from "./types";
 
-export const FetchShopListAction = () => ({
+export const FetchShopListAction = (
+  payload: FetchSoapList['payload']
+):FetchSoapList => ({
   type: shopTypes.FETCH_LIST,
+  payload
 });
 
 export const FetchSoapByIdAction = (

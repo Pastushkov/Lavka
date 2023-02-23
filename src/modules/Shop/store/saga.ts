@@ -11,10 +11,14 @@ import { shopTypes } from "./actionTypes";
 import { getSoapList, getSoapById } from "./api/shop.api";
 import { IItem, FetchSoapById } from "./types";
 
-function* fetchSoapListSaga() {
+function* fetchSoapListSaga({payload}:any) {
     try {
+        console.log(payload);
+        const {last_id} = payload
+        
         const response: AxiosResponse<{ payload: IItem[] }> = yield call(
-            getSoapList
+            getSoapList,
+            last_id
         );
         if (response.data) {
             yield put({
@@ -23,6 +27,8 @@ function* fetchSoapListSaga() {
             });
         }
     } catch (error: any) {
+        console.log(error);
+        
         yield put({
             type: shopTypes.ERROR_LIST,
             payload: error?.response?.data?.error?.message ?? 'Something went wrong',

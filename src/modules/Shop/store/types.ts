@@ -9,20 +9,46 @@ export interface IShopState {
     isErrorSelectedSoap: string
 }
 
+// export interface IItem {
+//     _id: string
+//     name: string
+//     price: number
+//     description: string
+//     count: number
+//     image: string
+//     colors: {
+//         [key:string]: string
+//     }
+// }
+
 export interface IItem {
-    _id: string
-    name: string
+    id: number
     price: number
-    description: string
-    count: number
-    image: string
-    colors: {
-        [key:string]: string
+    main_image: string
+    name: string
+    name_multilang: {
+        uk: string
+    }
+    images:
+    {
+        id: number
+        url: string
+    }[]
+    category: {
+        id: number
+        caption: string
+    }
+    group: {
+        id:number
+        name:string
     }
 }
 
 export interface FetchSoapList {
     type: typeof shopTypes.FETCH_LIST
+    payload: {
+        last_id: number|string | null
+    }
 }
 
 export interface SetSoapList {
@@ -38,7 +64,7 @@ export interface ErrorSoapList {
 export interface FetchSoapById {
     type: typeof shopTypes.FETCH_BY_ID
     payload: {
-        id:string
+        id: string
     }
 }
 
@@ -52,10 +78,10 @@ export interface ErrorSoapById {
     payload: string
 }
 
-export type ShopActions  = 
-| FetchSoapList
-| SetSoapList
-| ErrorSoapList
-| FetchSoapById
-| SetSoapById
-| ErrorSoapById
+export type ShopActions =
+    | FetchSoapList
+    | SetSoapList
+    | ErrorSoapList
+    | FetchSoapById
+    | SetSoapById
+    | ErrorSoapById
