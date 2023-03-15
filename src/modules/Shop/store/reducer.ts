@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { IShopState, ShopActions } from "./types";
 import { shopTypes } from "./actionTypes";
 
@@ -6,9 +7,9 @@ const initialState: IShopState = {
   isErrorList: "",
   isLoadingList: false,
 
-  selectedSoap: null,
-  isLoadingSelectedSoap: false,
-  isErrorSelectedSoap: "",
+  selectedItem: null,
+  isLoadingSelectedItem: false,
+  isErrorSelectedItem: "",
 };
 
 export default (state = initialState, action: ShopActions): IShopState => {
@@ -34,19 +35,19 @@ export default (state = initialState, action: ShopActions): IShopState => {
     case shopTypes.FETCH_BY_ID:
       return {
         ...state,
-        isLoadingSelectedSoap: true,
+        isLoadingSelectedItem: true,
       };
     case shopTypes.SET_BY_ID:
       return {
         ...state,
-        selectedSoap: action.payload,
-        isLoadingSelectedSoap: false
+        selectedItem: action.payload,
+        isLoadingSelectedItem: false
       };
     case shopTypes.ERROR_BY_ID:
       return {
         ...state,
-        isErrorSelectedSoap: action.payload,
-        isLoadingSelectedSoap: false
+        isErrorSelectedItem: action.payload,
+        isLoadingSelectedItem: false
       };
 
     default:

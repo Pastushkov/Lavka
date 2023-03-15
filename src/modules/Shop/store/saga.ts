@@ -9,7 +9,7 @@ import {
 } from "redux-saga/effects";
 import { shopTypes } from "./actionTypes";
 import { getSoapList, getSoapById } from "./api/shop.api";
-import { IItem, FetchSoapById } from "./types";
+import { IItem } from "./types";
 
 function* fetchSoapListSaga({payload}:any) {
     try {
@@ -37,11 +37,11 @@ function* fetchSoapListSaga({payload}:any) {
 }
 
 function* fetchSoapByIdSaga({ payload }: any) {
-    try {
-        const { id } = payload
+    try {        
+             
         const response: AxiosResponse<{ payload: IItem }> = yield call(
             getSoapById,
-            id
+            payload
         );
         if (response.data) {
             yield put({
