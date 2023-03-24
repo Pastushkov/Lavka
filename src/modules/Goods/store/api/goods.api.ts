@@ -5,9 +5,9 @@ import { FetchSoapList, FetchItemById } from "../types";
 const soapUrl = "/prom/products";
 
 export const getSoapList = (
-  last_id
+  lastId
     : FetchSoapList['payload']): Promise<AxiosResponse<FetchSoapList>> =>
-  axiosInstance.get(`${soapUrl}/list?limit=10${last_id ? `&last_id=${last_id}` : ``}`);
+  axiosInstance.get(`${soapUrl}/list?limit=10${lastId ? `&last_id=${lastId}` : ``}`);
 
 export const getSoapById = ({
   id,

@@ -10,9 +10,9 @@ const BodyRow: FC<IBodyRow> = ({
     header,
     element,
     onRowClick,
-    onMultyChnge,
-    multy,
-    noMultyAction,
+    // onMultyChnge,
+    // multy,
+    // noMultyAction,
     link,
 }) => (
     <TableRow

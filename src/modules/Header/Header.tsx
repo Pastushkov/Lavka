@@ -1,21 +1,13 @@
-import React, { FC } from 'react'
-import { Head } from './style'
-import { Link } from 'react-router-dom'
+import React, { FC } from "react";
+import { Link } from "react-router-dom";
+import { Head } from "./style";
 
 const Header: FC = () => {
-    return (
-        <Head>
-            <Link to='/shop'>
-                Shop
-            </Link>
-            <Link to='/contacts'>
-                Contacts
-            </Link>
-            <Link to='/about'>
-                About
-            </Link>
-        </Head>
-    )
-}
+  return (
+    <Head>
+      <Link to="/goods">Goods</Link>
+    </Head>
+  );
+};
 
-export default Header
+export default Header;

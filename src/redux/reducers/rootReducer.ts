@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
-import shopReducer from "../../modules/Shop/store/reducer";
+import goodsReducer from "../../modules/Goods/store/reducer";
+
 const rootReducer = combineReducers({
-  shop: shopReducer,
+  goods: goodsReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { apiEncode } from '../utils/apiEncode'
-import { getCookiesAccessToken, removeToken } from '../utils/token'
+import { getCookiesAccessToken } from '../utils/token'
 
 const axiosInstance = axios.create({
     headers: {

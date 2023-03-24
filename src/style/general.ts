@@ -9,3 +9,9 @@ export const Wrapper = styled.div`
   padding: 50px;
   flex-direction: column;
 `;
+
+export const Button = styled.button``;
+
+export const Input = styled.input`
+
+`;

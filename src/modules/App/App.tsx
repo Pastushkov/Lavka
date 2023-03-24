@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import React from "react";
+import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
-function App() {
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    navigate('/shop')
-  }, []);
+const App = () => {
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   navigate("/goods");
+  // }, []);
 
   return (
     <>

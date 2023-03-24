@@ -11,12 +11,14 @@ export interface IShopState {
 }
 
 export interface IItem {
+    [x: string]: any
     id: number
     price: number
-    main_image: string
+    mainImage: string
     name: string
-    name_multilang: {
+    nameMultilang: {
         uk: string
+        ru:string
     }
     images:
     {
@@ -33,15 +35,16 @@ export interface IItem {
     }
     keywords: string
     currency: string
-    description_multilang: {
+    descriptionMultilang: {
         uk: string
+        ru:string
     }
 }
 
 export interface FetchSoapList {
     type: typeof shopTypes.FETCH_LIST
     payload: {
-        last_id: number|string | null
+        lastId: number|string | null
     }
 }
 

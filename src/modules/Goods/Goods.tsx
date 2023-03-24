@@ -3,54 +3,50 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CustomTable from "../../components/table/Table";
 import { RootState } from "../../redux/reducers/rootReducer";
-import { Wrapper } from "../../style/general";
-import { header } from "./Shop.config";
+import { Button, Wrapper } from "../../style/general";
+import { header } from "./Goods.config";
 import { fetchShopListAction } from "./store/actions";
 
-const Shop: FC = () => {
+const Goods: FC = () => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-  const { list, isLoading } = useSelector(({ shop }: RootState) => ({
-    list: shop.list,
-    isLoading: shop.isLoadingList,
+  const { list, isLoading } = useSelector(({ goods }: RootState) => ({
+    list: goods.list,
+    isLoading: goods.isLoadingList
   }));
 
   useEffect(() => {
     if (page === 1) {
       dispatch(
         fetchShopListAction({
-          last_id: null,
+          lastId: null
         })
       );
     } else {
       dispatch(
         fetchShopListAction({
-          last_id: list ? list[list?.length - 1].id : null,
+          lastId: list ? list[list.length - 1].id : null
         })
       );
     }
   }, [page]);
 
-  useEffect(() => {
-    if (list) console.log(list);
-  }, [list]);
-
   const products = useMemo(
     () =>
-      list?.map(({ name, group, price, main_image, id }) => ({
+      list?.map(({ name, group, price, mainImage, id }) => ({
         image: (
           <div>
-            <img src={main_image} alt="" />
+            <img src={mainImage} alt="" />
           </div>
         ),
         name,
         group: group.name,
         price,
         id,
-        smallTitle: name,
+        smallTitle: name
       })) ?? [],
     [list]
   );
@@ -58,22 +54,22 @@ const Shop: FC = () => {
   const pagination = (
     <div>
       {page > 1 && (
-        <button
+        <Button
           onClick={() => {
             setPage(page - 1);
           }}
         >
           prev
-        </button>
+        </Button>
       )}
       {page}
-      <button
+      <Button
         onClick={() => {
           setPage(page + 1);
         }}
       >
         next
-      </button>
+      </Button>
     </div>
   );
 
@@ -84,7 +80,7 @@ const Shop: FC = () => {
         body={products}
         header={header}
         loading={isLoading}
-        keyTemplate={"1"}
+        keyTemplate="1"
         onRowClick={(id) => {
           navigate(`/item/${id}`);
         }}
@@ -94,4 +90,4 @@ const Shop: FC = () => {
   );
 };
 
-export default Shop;
+export default Goods;
