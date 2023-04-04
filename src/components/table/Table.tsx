@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import useMediaQuery from "../../hooks/useMediaQuery";
+import useMediaQuery from "hooks/useMediaQuery";
 import { Body } from "./Body";
 import { Header } from "./Header";
 import { IBody } from "./interface";

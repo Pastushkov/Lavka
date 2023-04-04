@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { all, put, takeLatest, AllEffect, ForkEffect, call } from "redux-saga/effects";
 import { shopTypes } from "./actionTypes";
-import { getSoapList, getSoapById } from "./api/goods.api";
+import { getSoapList, getSoapById, updateTranslation } from "./api/goods.api";
 import { IItem } from "./types";
 
 function* fetchSoapListSaga({ payload }: any) {
@@ -58,10 +58,25 @@ function* fetchSoapByIdSaga({ payload }: any) {
   }
 }
 
+function* fetchUpdateTranslationSaga({ payload }: any) {
+  try {
+    console.log(payload);
+    
+    const response: AxiosResponse<{ payload: any }> = yield call(updateTranslation, payload);
+    console.log(response);
+  } catch (error: any) {
+    yield put({
+      type: shopTypes.ERROR_UPDATE_TRANSLATION,
+      payload: error?.response?.data?.error?.message ?? "Something went wrong"
+    });
+  }
+}
+
 function* shopSaga(): Generator<AllEffect<ForkEffect<never>>, void, unknown> {
   yield all([
     takeLatest(shopTypes.FETCH_LIST, fetchSoapListSaga),
-    takeLatest(shopTypes.FETCH_BY_ID, fetchSoapByIdSaga)
+    takeLatest(shopTypes.FETCH_BY_ID, fetchSoapByIdSaga),
+    takeLatest(shopTypes.FETCH_UPDATE_TRANSLATION, fetchUpdateTranslationSaga)
   ]);
 }
 

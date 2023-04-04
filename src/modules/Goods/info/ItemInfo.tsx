@@ -2,14 +2,16 @@ import { Form, Formik } from "formik";
 import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import CustomInput from "../../../components/inputs";
-import { CustomTextArea } from "../../../components/inputs/textArea/TextArea";
-import LoaderWrapper from "../../../hoc/LoaderWrapper";
-import { RootState } from "../../../redux/reducers/rootReducer";
-import { Button } from "../../../style/general";
-import { resize } from "../../../utils/ImageResize";
-import { fetchItemByIdAction } from "../store/actions";
-import { ImageContainer, ImageWrap, InformationBlock, Line, MainImage, Wrapper } from "./style";
+import CustomInput from "components/inputs";
+import { CustomTextArea } from "components/inputs/textArea/TextArea";
+import LoaderWrapper from "hoc/LoaderWrapper";
+import { RootState } from "redux/reducers/rootReducer";
+import { Button } from "style/general";
+import { resize } from "utils/ImageResize";
+import { fetchItemByIdAction, fetchUpdateTranslationAction } from "../store/actions";
+import { ImageContainer, ImageWrap, InformationBlock, MainImage, Wrapper } from "./style";
+
+// 1771742406
 
 const ItemInfo: FC = () => {
   const location = useLocation();
@@ -57,52 +59,114 @@ const ItemInfo: FC = () => {
             })}
           </ImageContainer>
         </div>
-
-        <Formik
-          enableReinitialize
-          onSubmit={(values) => {
-            console.log(values);
-          }}
-          initialValues={{
-            nameUA: selectedItem?.nameMultilang.uk,
-            nameRU: selectedItem?.nameMultilang.ru,
-            descriptionUA: selectedItem?.descriptionMultilang.uk,
-            descriptionRU: selectedItem?.descriptionMultilang.ru,
-            price: selectedItem?.price
+        <div
+          style={{
+            display: "flex"
           }}
         >
-          {({ values, handleChange, dirty }) => {
-            return (
-              <Form>
-                <InformationBlock>
-                  <Line>
-                    <CustomInput onChange={handleChange} value={values.nameUA} name="nameUA" placeholder="name UA" />
-                    <CustomInput onChange={handleChange} value={values.nameRU} name="nameRU" placeholder="name RU" />
-                  </Line>
-                  <Line>
-                    <CustomTextArea
-                      onChange={handleChange}
-                      value={values.descriptionUA}
-                      placeholder="description UA"
-                      name="descriptionUA"
-                    />
-                    <CustomTextArea
-                      onChange={handleChange}
-                      value={values.descriptionRU}
-                      placeholder="description RU"
-                      name="descriptionRU"
-                    />
-                  </Line>
-                  <CustomInput onChange={handleChange} value={values.price} name="price" placeholder="price" />
+          <div>
+            <Formik
+              enableReinitialize
+              onSubmit={(values) => {
+                if (selectedItem)
+                  dispatch(
+                    fetchUpdateTranslationAction({
+                      product_id: selectedItem.id.toString(),
+                      lang: "uk",
+                      name: values.nameUA,
+                      keywords: selectedItem.keywords ?? "",
+                      description: values.descriptionUA
+                    })
+                  );
+              }}
+              initialValues={{
+                nameUA: selectedItem?.nameMultilang.uk ?? "",
+                descriptionUA: selectedItem?.descriptionMultilang.uk ?? "",
+                price: selectedItem?.price ?? "",
+                keywords: selectedItem?.keywords ?? ""
+              }}
+            >
+              {({ values, handleChange, dirty }) => {
+                return (
+                  <Form>
+                    <InformationBlock>
+                      <div>
+                        {" "}
+                        <CustomInput
+                          onChange={handleChange}
+                          value={values.nameUA}
+                          name="nameUA"
+                          placeholder="name UA"
+                        />
+                      </div>
 
-                  <Button type="submit" disabled={!dirty}>
-                    Save
-                  </Button>
-                </InformationBlock>
-              </Form>
-            );
-          }}
-        </Formik>
+                      <div>
+                        <CustomTextArea
+                          onChange={handleChange}
+                          value={values.descriptionUA}
+                          placeholder="description UA"
+                          name="descriptionUA"
+                        />
+                      </div>
+
+                      <Button type="submit" disabled={!dirty}>
+                        Save
+                      </Button>
+                    </InformationBlock>
+                  </Form>
+                );
+              }}
+            </Formik>
+          </div>
+          <div>
+            <Formik
+              enableReinitialize
+              onSubmit={(values) => {
+                if (selectedItem)
+                  dispatch(
+                    fetchUpdateTranslationAction({
+                      product_id: selectedItem.id.toString(),
+                      lang: "ru",
+                      name: values.name,
+                      keywords: selectedItem.keywords ?? "",
+                      description: values.description
+                    })
+                  );
+              }}
+              initialValues={{
+                name: selectedItem?.nameMultilang.ru ?? "",
+                description: selectedItem?.descriptionMultilang.ru ?? "",
+                price: selectedItem?.price ?? "",
+                keywords: selectedItem?.keywords ?? ""
+              }}
+            >
+              {({ values, handleChange, dirty }) => {
+                return (
+                  <Form>
+                    <InformationBlock>
+                      <div>
+                        <CustomInput onChange={handleChange} value={values.name} name="name" placeholder="name RU" />
+                      </div>
+
+                      <div>
+                        <CustomTextArea
+                          onChange={handleChange}
+                          value={values.description}
+                          placeholder="description RU"
+                          name="description"
+                        />
+                      </div>
+
+                      <Button type="submit" disabled={!dirty}>
+                        Save
+                      </Button>
+                    </InformationBlock>
+                  </Form>
+                );
+              }}
+            </Formik>
+          </div>
+        </div>
       </Wrapper>
     </LoaderWrapper>
   );

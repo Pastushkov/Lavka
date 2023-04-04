@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import CustomTable from "../../components/table/Table";
-import { RootState } from "../../redux/reducers/rootReducer";
-import { Button, Wrapper } from "../../style/general";
+import CustomTable from "components/table/Table";
+import { RootState } from "redux/reducers/rootReducer";
+import { Button, Wrapper } from "style/general";
 import { header } from "./Goods.config";
 import { fetchShopListAction } from "./store/actions";
 

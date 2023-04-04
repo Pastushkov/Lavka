@@ -35,7 +35,7 @@
     "arrow-body-style": "off",
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/no-use-before-define":[
-      "error"
+      "warn"
     ],
     "react/jsx-filename-extension":[
       "warn",

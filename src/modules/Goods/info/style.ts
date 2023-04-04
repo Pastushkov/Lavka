@@ -43,4 +43,5 @@ export const InformationBlock = styled.div`
 export const Line = styled.div`
   display: flex;
   gap: 60px;
+  width: 100%;
 `;

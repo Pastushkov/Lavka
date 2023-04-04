@@ -10,6 +10,9 @@ const initialState: IShopState = {
   selectedItem: null,
   isLoadingSelectedItem: false,
   isErrorSelectedItem: "",
+
+  isLoadingUpdateTranslation: false,
+  translationUpdated: "",
 };
 
 export default (state = initialState, action: ShopActions): IShopState => {
@@ -23,13 +26,13 @@ export default (state = initialState, action: ShopActions): IShopState => {
       return {
         ...state,
         list: action.payload,
-        isLoadingList: false
+        isLoadingList: false,
       };
     case shopTypes.ERROR_LIST:
       return {
         ...state,
         isErrorList: action.payload,
-        isLoadingList: false
+        isLoadingList: false,
       };
 
     case shopTypes.FETCH_BY_ID:
@@ -41,13 +44,29 @@ export default (state = initialState, action: ShopActions): IShopState => {
       return {
         ...state,
         selectedItem: action.payload,
-        isLoadingSelectedItem: false
+        isLoadingSelectedItem: false,
       };
     case shopTypes.ERROR_BY_ID:
       return {
         ...state,
         isErrorSelectedItem: action.payload,
-        isLoadingSelectedItem: false
+        isLoadingSelectedItem: false,
+      };
+    case shopTypes.FETCH_UPDATE_TRANSLATION:
+      return {
+        ...state,
+        isLoadingUpdateTranslation: true,
+      };
+
+    case shopTypes.SET_UPDATE_TRANSLATION:
+      return {
+        ...state,
+        translationUpdated: action.payload,
+      };
+    case shopTypes.ERROR_UPDATE_TRANSLATION:
+      return {
+        ...state,
+        translationUpdated: action.payload,
       };
 
     default:
