@@ -29,7 +29,7 @@ export const ImageWrap = styled.div`
 `;
 
 export const InformationBlock = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -37,7 +37,7 @@ export const InformationBlock = styled.div`
 
   width: 1200px;
 
-  margin-top: 50px;
+  margin-top: 50px; */
 `;
 
 export const Line = styled.div`
