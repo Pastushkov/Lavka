@@ -28,20 +28,30 @@ export const ImageWrap = styled.div`
   cursor: pointer;
 `;
 
-export const InformationBlock = styled.div`
-  /* display: flex;
+export const InformationBlock = styled.div<{
+  width?: number;
+}>`
+  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-
-  width: 1200px;
-
-  margin-top: 50px; */
+  gap: 20px;
+  width: ${({ width }) => (width ? `${width}px` : `auto`)};
 `;
 
 export const Line = styled.div`
   display: flex;
   gap: 60px;
   width: 100%;
+`;
+
+export const FormWrapper = styled.div`
+  margin: 0 auto;
+  margin-top: 30px;
+  display: flex;
+  max-width: 1400px;
+  width: 100%;
+  justify-content: center;
+  gap: 70px;
+  .form {
+    width: 100%;
+  }
 `;

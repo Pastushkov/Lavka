@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import { Form, Formik } from "formik";
 import React, { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,10 +8,11 @@ import CustomInput from "components/inputs";
 import { CustomTextArea } from "components/inputs/textArea/TextArea";
 import LoaderWrapper from "hoc/LoaderWrapper";
 import { RootState } from "redux/reducers/rootReducer";
-import { Button } from "style/general";
+import { Button, ButtonWrapper, Flex, Input } from "style/general";
 import { resize } from "utils/ImageResize";
+import { Label } from "components/inputs/style";
 import { fetchItemByIdAction, fetchUpdateTranslationAction } from "../store/actions";
-import { ImageContainer, ImageWrap, InformationBlock, MainImage, Wrapper } from "./style";
+import { FormWrapper, ImageContainer, ImageWrap, InformationBlock, MainImage, Wrapper } from "./style";
 
 // 1771742406
 
@@ -59,12 +62,9 @@ const ItemInfo: FC = () => {
             })}
           </ImageContainer>
         </div>
-        <div
-          style={{
-            display: "flex"
-          }}
-        >
-          <div>
+
+        <FormWrapper>
+          <div className="form">
             <Formik
               enableReinitialize
               onSubmit={(values) => {
@@ -73,15 +73,15 @@ const ItemInfo: FC = () => {
                     fetchUpdateTranslationAction({
                       product_id: selectedItem.id.toString(),
                       lang: "uk",
-                      name: values.nameUA,
-                      keywords: selectedItem.keywords ?? "",
-                      description: values.descriptionUA
+                      name: values.name,
+                      keywords: values.keywords,
+                      description: values.description
                     })
                   );
               }}
               initialValues={{
-                nameUA: selectedItem?.nameMultilang.uk ?? "",
-                descriptionUA: selectedItem?.descriptionMultilang.uk ?? "",
+                name: selectedItem?.nameMultilang.uk ?? "",
+                description: selectedItem?.descriptionMultilang.uk ?? "",
                 price: selectedItem?.price ?? "",
                 keywords: selectedItem?.keywords ?? ""
               }}
@@ -91,34 +91,39 @@ const ItemInfo: FC = () => {
                   <Form>
                     <InformationBlock>
                       <div>
-                        {" "}
-                        <CustomInput
-                          onChange={handleChange}
-                          value={values.nameUA}
-                          name="nameUA"
-                          placeholder="name UA"
-                        />
+                        <CustomInput onChange={handleChange} value={values.name} name="name" placeholder="name" />
                       </div>
 
                       <div>
                         <CustomTextArea
                           onChange={handleChange}
-                          value={values.descriptionUA}
-                          placeholder="description UA"
-                          name="descriptionUA"
+                          value={values.description}
+                          placeholder="description"
+                          name="description"
                         />
                       </div>
 
-                      <Button type="submit" disabled={!dirty}>
-                        Save
-                      </Button>
+                      <div>
+                        <CustomInput
+                          onChange={handleChange}
+                          value={values.keywords}
+                          name="keywords"
+                          placeholder="keywords"
+                        />
+                      </div>
+
+                      <ButtonWrapper>
+                        <Button type="submit" disabled={!dirty}>
+                          Save
+                        </Button>
+                      </ButtonWrapper>
                     </InformationBlock>
                   </Form>
                 );
               }}
             </Formik>
           </div>
-          <div>
+          <div className="form">
             <Formik
               enableReinitialize
               onSubmit={(values) => {
@@ -128,7 +133,7 @@ const ItemInfo: FC = () => {
                       product_id: selectedItem.id.toString(),
                       lang: "ru",
                       name: values.name,
-                      keywords: selectedItem.keywords ?? "",
+                      keywords: values.keywords,
                       description: values.description
                     })
                   );
@@ -157,16 +162,52 @@ const ItemInfo: FC = () => {
                         />
                       </div>
 
-                      <Button type="submit" disabled={!dirty}>
-                        Save
-                      </Button>
+                      <div>
+                        <CustomInput
+                          onChange={handleChange}
+                          value={values.keywords}
+                          name="keywords"
+                          placeholder="keywords"
+                        />
+                      </div>
+                      <ButtonWrapper>
+                        <Button type="submit" disabled={!dirty}>
+                          Save
+                        </Button>
+                      </ButtonWrapper>
                     </InformationBlock>
                   </Form>
                 );
               }}
             </Formik>
           </div>
-        </div>
+        </FormWrapper>
+        <Formik
+          initialValues={{
+            price: selectedItem?.price ?? ""
+          }}
+          onSubmit={(values) => {
+            console.log(values);
+          }}
+        >
+          {({ values, handleChange, dirty }) => {
+            return (
+              <Form>
+                <InformationBlock width={150}>
+                  <Flex gap={40}>
+                    <CustomInput onChange={handleChange} value={values.price} name="price" placeholder="price" />
+                    <div> {selectedItem?.currency}</div>
+                  </Flex>
+                  <ButtonWrapper>
+                    <Button type="submit" disabled={!dirty}>
+                      Save
+                    </Button>
+                  </ButtonWrapper>
+                </InformationBlock>
+              </Form>
+            );
+          }}
+        </Formik>
       </Wrapper>
     </LoaderWrapper>
   );
