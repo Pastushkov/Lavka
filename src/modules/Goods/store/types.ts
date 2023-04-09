@@ -41,6 +41,26 @@ export interface IItem {
     uk: string;
     ru: string;
   };
+  quantity_in_stock: string | number;
+}
+
+export interface IUpdateProduct {
+  id: number;
+  presence: string;
+  in_stock: boolean;
+  regions: [];
+  price: number;
+  status: string;
+  discount: null;
+  name: string;
+  keywords: string;
+  description: string;
+  quantity_in_stock: number;
+}
+
+export interface FetchUpdateProduct {
+  type: typeof shopTypes.FETCH_UPDATE_PRODUCT;
+  payload: IUpdateProduct;
 }
 
 export interface FetchSoapList {
@@ -90,12 +110,12 @@ export interface FetchUpdateTranslation {
 
 export interface SetUpdateTranslation {
   type: typeof shopTypes.SET_UPDATE_TRANSLATION;
-  payload: string
+  payload: string;
 }
 
 export interface ErrorUpdateTranslation {
   type: typeof shopTypes.ERROR_UPDATE_TRANSLATION;
-  payload: string
+  payload: string;
 }
 
 export type ShopActions =

@@ -31,6 +31,7 @@ export const ImageWrap = styled.div`
 export const InformationBlock = styled.div<{
   width?: number;
 }>`
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 20px;

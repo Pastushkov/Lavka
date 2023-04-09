@@ -1,27 +1,21 @@
 import { shopTypes } from "./actionTypes";
-import {
-  FetchItemById,
-  FetchSoapList,
-  FetchUpdateTranslation,
-} from "./types";
+import { FetchItemById, FetchSoapList, FetchUpdateProduct, FetchUpdateTranslation } from "./types";
 
-export const fetchShopListAction = (
-  payload: FetchSoapList["payload"]
-): FetchSoapList => ({
+export const fetchShopListAction = (payload: FetchSoapList["payload"]): FetchSoapList => ({
   type: shopTypes.FETCH_LIST,
-  payload,
+  payload
 });
 
-export const fetchItemByIdAction = (
-  payload: FetchItemById["payload"]
-): FetchItemById => ({
+export const fetchItemByIdAction = (payload: FetchItemById["payload"]): FetchItemById => ({
   type: shopTypes.FETCH_BY_ID,
-  payload,
+  payload
 });
 
-export const fetchUpdateTranslationAction = (
-  payload: FetchUpdateTranslation["payload"]
-): FetchUpdateTranslation => ({
+export const fetchUpdateTranslationAction = (payload: FetchUpdateTranslation["payload"]): FetchUpdateTranslation => ({
   type: shopTypes.FETCH_UPDATE_TRANSLATION,
-  payload,
+  payload
+});
+export const fetchUpdateProductAction = (payload: FetchUpdateProduct["payload"]): FetchUpdateProduct => ({
+  type: shopTypes.FETCH_UPDATE_PRODUCT,
+  payload
 });

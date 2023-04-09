@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import { Form, Formik } from "formik";
@@ -11,8 +12,10 @@ import { RootState } from "redux/reducers/rootReducer";
 import { Button, ButtonWrapper, Flex, Input } from "style/general";
 import { resize } from "utils/ImageResize";
 import { Label } from "components/inputs/style";
-import { fetchItemByIdAction, fetchUpdateTranslationAction } from "../store/actions";
+import CustomSelect from "components/select/Select";
+import { fetchItemByIdAction, fetchUpdateProductAction, fetchUpdateTranslationAction } from "../store/actions";
 import { FormWrapper, ImageContainer, ImageWrap, InformationBlock, MainImage, Wrapper } from "./style";
+import { presenceOptions, statusOptions } from "./ItemInfo.config";
 
 // 1771742406
 
@@ -68,28 +71,45 @@ const ItemInfo: FC = () => {
             <Formik
               enableReinitialize
               onSubmit={(values) => {
-                if (selectedItem)
-                  dispatch(
-                    fetchUpdateTranslationAction({
-                      product_id: selectedItem.id.toString(),
-                      lang: "uk",
-                      name: values.name,
-                      keywords: values.keywords,
-                      description: values.description
-                    })
-                  );
+                if (selectedItem) {
+                  dispatch(fetchUpdateProductAction({
+                    id: +(selectedItem?.id.toString()),
+                    presence: values.presence,
+                    in_stock: +values.quantity > 0,
+                    regions: [], // selectedItem?.regions,
+                    price: +values.price,
+                    status: values.status,
+                    discount: null,
+                    name: values.name,
+                    keywords: values.keywords,
+                    description: values.description,
+                    quantity_in_stock: +values.quantity
+                  }))                 
+                }
+                // dispatch(
+                //   fetchUpdateTranslationAction({
+                //     product_id: selectedItem.id.toString(),
+                //     lang: "uk",
+                //     name: values.name,
+                //     keywords: values.keywords,
+                //     description: values.description
+                //   })
+                // );
               }}
               initialValues={{
                 name: selectedItem?.nameMultilang.uk ?? "",
                 description: selectedItem?.descriptionMultilang.uk ?? "",
                 price: selectedItem?.price ?? "",
-                keywords: selectedItem?.keywords ?? ""
+                keywords: selectedItem?.keywords ?? "",
+                quantity: selectedItem?.quantity_in_stock ?? "",
+                status: selectedItem?.status ?? "",
+                presence: selectedItem?.presence ?? ""
               }}
             >
-              {({ values, handleChange, dirty }) => {
+              {({ values, handleChange, dirty, setFieldValue }) => {
                 return (
                   <Form>
-                    <InformationBlock>
+                    <InformationBlock width={500}>
                       <div>
                         <CustomInput onChange={handleChange} value={values.name} name="name" placeholder="name" />
                       </div>
@@ -112,6 +132,32 @@ const ItemInfo: FC = () => {
                         />
                       </div>
 
+                      <Flex gap={40}>
+                        <CustomInput onChange={handleChange} value={values.price} name="price" placeholder="price" />
+                        <div> {selectedItem?.currency}</div>
+                      </Flex>
+                      <CustomInput
+                        onChange={handleChange}
+                        value={values.quantity}
+                        name="quantity"
+                        placeholder="quantity in stock"
+                      />
+                      <CustomSelect
+                        label="Status"
+                        name="status"
+                        setFieldValue={setFieldValue}
+                        value={values.status}
+                        options={statusOptions}
+                      />
+
+                      <CustomSelect
+                        label="Presence"
+                        name="presence"
+                        setFieldValue={setFieldValue}
+                        value={values.presence}
+                        options={presenceOptions}
+                      />
+
                       <ButtonWrapper>
                         <Button type="submit" disabled={!dirty}>
                           Save
@@ -123,7 +169,16 @@ const ItemInfo: FC = () => {
               }}
             </Formik>
           </div>
-          <div className="form">
+        </FormWrapper>
+      </Wrapper>
+    </LoaderWrapper>
+  );
+};
+
+export default ItemInfo;
+
+/*
+ <div className="form">
             <Formik
               enableReinitialize
               onSubmit={(values) => {
@@ -181,36 +236,4 @@ const ItemInfo: FC = () => {
               }}
             </Formik>
           </div>
-        </FormWrapper>
-        <Formik
-          initialValues={{
-            price: selectedItem?.price ?? ""
-          }}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
-        >
-          {({ values, handleChange, dirty }) => {
-            return (
-              <Form>
-                <InformationBlock width={150}>
-                  <Flex gap={40}>
-                    <CustomInput onChange={handleChange} value={values.price} name="price" placeholder="price" />
-                    <div> {selectedItem?.currency}</div>
-                  </Flex>
-                  <ButtonWrapper>
-                    <Button type="submit" disabled={!dirty}>
-                      Save
-                    </Button>
-                  </ButtonWrapper>
-                </InformationBlock>
-              </Form>
-            );
-          }}
-        </Formik>
-      </Wrapper>
-    </LoaderWrapper>
-  );
-};
-
-export default ItemInfo;
+*/
