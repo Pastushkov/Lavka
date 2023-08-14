@@ -1,8 +1,10 @@
 import axios from 'axios'
-import { apiEncode } from '../utils/apiEncode'
-import { getCookiesAccessToken } from '../utils/token'
+import { DropAuthorizationAction } from 'modules/auth/store/actions'
+import store from 'redux/store'
+import { getCookiesAccessToken, removeToken } from 'utils/token'
 
 const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
     headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Credentials': '*',
@@ -12,16 +14,9 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
     config => {
         const token = getCookiesAccessToken()
+
         if (config.headers && token) {
             config.headers.Authorization = `Bearer ${token}`
-        }
-
-        config.url = apiEncode(config.url)
-
-        if (config.baseURL) {
-            config.baseURL = `${process.env.REACT_APP_API_URL}${config.baseURL}`
-        } else {
-            config.baseURL = `${process.env.REACT_APP_API_URL}`
         }
 
         return config
@@ -31,7 +26,13 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
     config => config,
-    error => {        
+    error => {
+        if (error.response.status === 401) {
+            const { dispatch } = store
+            dispatch(DropAuthorizationAction())
+            removeToken()
+            window.location.href = '/sign_in'
+        }
         return Promise.reject(error)
     },
 )

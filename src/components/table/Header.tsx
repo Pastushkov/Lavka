@@ -1,29 +1,17 @@
-import React, { FC } from "react";
-import { IHead } from "./interface";
-import { HeaderWrapper, TableItem, TableRow } from "./style";
+import React, { FC } from 'react'
+import { IHeaderProps } from './config'
+import { HeaderItem, HeaderWrapper } from './style'
 
-// const filtermulty = (noMultyAction: IHead['noMultyAction']) => (element: any) =>
-//     noMultyAction?.filter(
-//         ({ key, regExp, equal, noEqual }) =>
-//             ((regExp && regExp.test(element[key])) || !regExp) &&
-//             ((equal && element[key] === equal) || !equal) &&
-//             ((noEqual && element[key] !== noEqual) || !noEqual),
-//     ).length === noMultyAction?.length
+const Header: FC<IHeaderProps> = ({ header }) => {
+    return (
+        <HeaderWrapper>
+            {header.map(({ label, align, width }) => (
+                <HeaderItem align={align} width={width}>
+                    {label}
+                </HeaderItem>
+            ))}
+        </HeaderWrapper>
+    )
+}
 
-export const Header: FC<IHead> = ({
-  header
-  // fullBody,
-  // multy,
-  // onMultyChnge,
-  // noMultyAction,
-}) => (
-  <HeaderWrapper>
-    <TableRow className="head padding">
-      {header.map(({ label, propName, align, width }) => (
-        <TableItem className="padding" key={propName} width={width} align={align}>
-          {label}
-        </TableItem>
-      ))}
-    </TableRow>
-  </HeaderWrapper>
-);
+export default Header

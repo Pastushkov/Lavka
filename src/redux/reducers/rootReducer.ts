@@ -1,10 +1,16 @@
-import { combineReducers } from "redux";
-import goodsReducer from "../../modules/Goods/store/reducer";
+import { combineReducers } from 'redux'
+import authorizationReducer from 'modules/auth/store/reducer'
+import messageReducer from 'components/messages/store/reducer'
+import userReducer from 'modules/profile/store/reducer'
+import productsReducer from 'modules/products/store/reducer'
 
 const rootReducer = combineReducers({
-  goods: goodsReducer
-});
+    authorization: authorizationReducer,
+    messages: messageReducer,
+    user: userReducer,
+    products: productsReducer,
+})
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof rootReducer>
 
-export default rootReducer;
+export default rootReducer
